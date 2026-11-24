@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Інформатика онлайн — шкільний кабінет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fffdf4;--bg:#f3f8fc;--grid:#d3e5f4;--ink:#1f3fa8;--fg:#26324d;--dim:#6b7893;--red:#d94141;--yel:#ffd84d;--grn:#2f7d4f;--board:#23493a;--wood:#b5824a;--line:#dfe6f0;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{--paper:#1c2438;--bg:#131a2b;--grid:#1d2842;--ink:#8fb0ff;--fg:#e4eaf7;--dim:#9aa6c0;--red:#ff7b7b;--yel:#ffd84d;--grn:#6fd69b;--board:#1b3a2e;--wood:#8a6236;--line:#2a3550}}
+*{box-sizing:border-box}
+body{margin:0;color:var(--fg);font:16px/1.6 Nunito,"Segoe UI",system-ui,sans-serif;background-color:var(--bg);
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+header{background:var(--board);color:#f5f5ea;border-bottom:8px solid var(--wood);padding:12px 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.logo{font:700 30px Caveat,"Segoe Print","Comic Sans MS",cursive;cursor:pointer;margin:0;color:#fff}
+.logo small{font:600 13px Nunito,sans-serif;opacity:.8;margin-left:8px}
+#who{flex:1;text-align:right;font-size:14px;opacity:.9}
+nav{display:flex;gap:6px;padding:10px 18px 0;overflow-x:auto;max-width:1000px;margin:0 auto}
+nav button{flex:0 0 auto;border-radius:10px 10px 0 0;border:2px solid var(--ink);border-bottom:0;background:var(--paper);color:var(--ink);padding:9px 16px;font-weight:800}
+nav button.on{background:var(--yel);color:#1a2250}
+main{max-width:1000px;margin:0 auto;padding:0 18px 30px}
+nav:empty+main{padding-top:16px}
+.sheet{background:var(--paper);border:2px solid var(--ink);border-radius:0 12px 12px 12px;padding:18px 20px 18px 46px;margin-bottom:16px;position:relative;box-shadow:3px 3px 0 var(--line)}
+.sheet::before{content:"";position:absolute;left:30px;top:0;bottom:0;border-left:2px solid var(--red);opacity:.55}
+h2{font:700 28px Caveat,"Segoe Print",cursive;color:var(--ink);margin:0 0 8px}
+h3{margin:16px 0 4px;color:var(--grn);font-size:17px}
+input,textarea,select{width:100%;background:var(--bg);color:var(--fg);border:2px solid var(--line);border-radius:8px;padding:10px;font:inherit}
+input:focus,textarea:focus,select:focus{outline:0;border-color:var(--ink)}
+textarea{min-height:110px;resize:vertical;margin-bottom:8px}
+button{background:var(--yel);color:#1a2250;border:2px solid var(--ink);border-radius:8px;padding:9px 16px;font:800 15px Nunito,sans-serif;cursor:pointer}
+button:hover{filter:brightness(.95);transform:translateY(-1px)}button:disabled{opacity:.5;cursor:wait}
+button.ghost{background:transparent;color:var(--ink)}button.del{background:transparent;color:var(--red);border-color:var(--red)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.row>*{flex:1 1 150px}
+.item{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;border-top:2px dashed var(--line);padding:11px 0}
+.item:first-of-type{border-top:0}.dim{color:var(--dim);font-size:13px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.tabs button.on{background:var(--ink);color:var(--paper)}
+.sec p{margin:0;white-space:pre-wrap}
+a.btn{display:inline-block;text-decoration:none;border:2px solid var(--red);color:var(--red);font-weight:800;border-radius:8px;padding:9px 16px;margin:6px 0}
+.msg{color:var(--red);margin-top:8px;font-weight:600}.ok{color:var(--grn)}
+.badge{background:var(--grn);color:#fff;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:800;margin-left:8px}
+.day{font:700 22px Caveat,cursive;color:var(--red);margin:18px 0 4px}
+table{border-collapse:collapse;font-size:14px}th,td{border:1px solid var(--line);padding:6px 10px;text-align:center}th{color:var(--ink)}td.n{text-align:left;font-weight:800;white-space:nowrap}.wrap{overflow-x:auto;margin:10px 0}td button{padding:3px 10px;min-width:36px}.th{border:2px dashed var(--ink);border-radius:10px;padding:10px;margin:8px 0;background:var(--bg)}.th.t{border-color:var(--red)}
+td.code{font:700 16px ui-monospace,Menlo,Consolas,monospace;letter-spacing:1px}
+pre{background:var(--bg);border:2px solid var(--line);padding:10px;border-radius:8px;white-space:pre-wrap;margin:6px 0 0;font:inherit;width:100%}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}.stats div{flex:1 1 120px;background:var(--bg);border:2px dashed var(--ink);border-radius:10px;padding:10px;text-align:center}
+.stats b{display:block;font:700 34px Caveat,cursive;color:var(--ink)}
+.bar{display:flex;gap:8px;flex-wrap:wrap}
+@media print{header,nav,.sheet:not(.printme),.noprint{display:none!important}body{background:#fff}.sheet{border:0;box-shadow:none;padding:0}.sheet::before{display:none}}
+</style>
+</head>
+<body>
+<header><h1 class="logo" id="logo">🎒 Інформатика онлайн<small>шкільний кабінет</small></h1><span id="who"></span><button id="out" class="ghost" style="display:none;color:#fff;border-color:#fff">Вийти</button></header>
+<nav id="nav"></nav>
+<main id="app"></main>
+<script>
+const $=id=>document.getElementById(id),app=$("app");
+const YT=q=>"https://www.youtube.com/results?search_query="+encodeURIComponent(q);
+const CH=["Інформатика - це легко!","Дистанційне навчання"];
+const KIND={text:"📝 Текстове",pc:"💻 За ПК",phone:"📱 З телефона"};
+const NAV={student:[["student","📚 Уроки"],["student-history","📒 Мої відповіді"],["student-cabinet","👤 Кабінет"]],
+teacher:[["teacher","📚 Уроки"],["teacher-new","➕ Новий урок"],["teacher-schedule","📅 Розклад"],["teacher-answers","🗂 Відповіді"],["teacher-journal","📊 Журнал"],["teacher-students","👥 Учні"],["teacher-settings","⚙ Налаштування"]]};
+const ERR={401:"Невірний логін або пароль.",403:"Немає доступу.",404:"Не знайдено.",409:"Такий логін уже зайнятий.",413:"Файл більший за 20 МБ.",422:"Перевір, чи правильно заповнені поля.",429:"Забагато спроб. Спробуй пізніше."};
+// S — усе, що сервер дозволяє бачити поточному користувачу (GET /api/state); null — не ввійшов.
+let S=null,setup=false,GM=new Map(),repaint=null,filt={lesson:"",q:"",kind:"",from:"",to:""};
+
+const norm=s=>s.trim().replace(/\s+/g," ").toLowerCase();
+const fDate=ts=>new Date(ts).toLocaleDateString("uk-UA",{day:"numeric",month:"long",year:"numeric"});
+const fTime=ts=>new Date(ts).toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"});
+const dD=d=>fDate(new Date(d+"T00:00:00"));
+const byName=(a,b)=>(a.last+" "+a.first).localeCompare(b.last+" "+b.first,"uk");
+const grade=(sid,lid)=>GM.get(sid+"|"+lid)||null;
+const thread=(sid,lid)=>S.comments.filter(x=>x.student_id===sid&&x.lesson_id===lid).sort((a,b)=>a.ts-b.ts);
+function el(t,txt,cls){const e=document.createElement(t);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e}
+function sheet(title){const c=el("section",null,"sheet");if(title)c.append(el("h2",title));return c}
+function field(ph,ac,type){const i=el("input");i.placeholder=ph;if(ac)i.autocomplete=ac;if(type)i.type=type;return i}
+function say(m,t,ok){m.className=ok?"msg ok":"msg";m.textContent=t}
+
+async function api(method,url,body){
+  const o={method,headers:{},credentials:"same-origin"};
+  if(body instanceof FormData)o.body=body;else if(body){o.headers["Content-Type"]="application/json";o.body=JSON.stringify(body)}
+  const r=await fetch(url,o);let d=null;try{d=await r.json()}catch(e){}
+  if(!r.ok){const det=d&&d.detail;throw{status:r.status,detail:det,message:typeof det==="string"?det:ERR[r.status]||"Помилка "+r.status}}
+  return d;
+}
+async function load(){
+  try{S=await api("GET","/api/state");GM=new Map(S.grades.map(g=>[g.student_id+"|"+g.lesson_id,g.value]))}
+  catch(e){S=null;setup=!!(e.detail&&e.detail.setup)}
+}
+// Після кожної зміни: перечитати стан і перемалювати поточний розділ.
+async function sync(){await load();if(S&&repaint)repaint();else route()}
+
+function route(){
+  repaint=null;app.textContent="";
+  const nav=$("nav");nav.textContent="";$("out").style.display=S?"":"none";
+  $("who").textContent=!S?"":(S.role==="teacher"?"👩‍🏫 ":"🎓 ")+S.me.last+" "+S.me.first+(S.me.cls?" · "+S.me.cls:"");
+  if(!S)return loginPage();
+  const pages=S.role==="teacher"
+    ?{"teacher":teacherLessons,"teacher-new":teacherNew,"teacher-schedule":teacherSchedule,"teacher-answers":teacherAnswers,"teacher-journal":teacherJournal,"teacher-students":teacherStudents,"teacher-settings":teacherSettings}
+    :{"student":studentLessons,"student-history":studentHistory,"student-cabinet":studentCabinet};
+  let h=location.hash.slice(1);if(!pages[h])h=S.role;
+  NAV[S.role].forEach(([k,t])=>{const b=el("button",t);if(k===h)b.className="on";b.onclick=()=>location.hash=k;nav.append(b)});
+  pages[h]();
+}
+
+function loginPage(){
+  const c=sheet("Вхід до кабінету"),tabs=el("div",null,"tabs"),bs=el("button","🎓 Я учень"),bt=el("button","👩‍🏫 Я вчитель","ghost");
+  const lg=field("Логін","username"),pw=field("PIN","current-password","password"),row=el("div",null,"row"),b=el("button","Увійти ✏️"),m=el("div",null,"msg"),hint=el("div",null,"dim");
+  let role="student";
+  const pick=r=>{role=r;bs.className=r==="student"?"":"ghost";bt.className=r==="teacher"?"":"ghost";pw.placeholder=r==="student"?"PIN":"Пароль";pw.inputMode=r==="student"?"numeric":"text";
+    hint.textContent=r==="student"?"Логін і PIN видає вчитель. Якщо загубив(-ла) — попроси вчителя видати новий PIN.":"Вхід для вчителя. Нового вчителя додає колега в розділі «Налаштування»."};
+  bs.onclick=()=>pick("student");bt.onclick=()=>pick("teacher");
+  const go=async()=>{if(!lg.value.trim()||!pw.value)return;b.disabled=true;
+    try{await api("POST","/api/login",{role,login:lg.value,password:pw.value});await load();location.hash=S?S.role:"";route()}catch(e){say(m,e.message)}
+    b.disabled=false};
+  b.onclick=go;pw.onkeydown=e=>{if(e.key==="Enter")go()};
+  tabs.append(bs,bt);row.append(lg,pw);c.append(tabs,hint,row,b,m);app.append(c);pick("student");
+  if(setup)app.append(setupSheet());
+}
+function teacherForm(c,withCode,done){
+  const lg=field("Логін (латиницею)","username"),pw=field("Пароль (від 8 символів)","new-password","password"),ln=field("Прізвище","family-name"),fn=field("Ім'я та по батькові","given-name"),sb=field("Предмет або школа (необов'язково)"),cd=field("Код першого запуску (SETUP_CODE з Render)"),
+    r1=el("div",null,"row"),r2=el("div",null,"row"),b=el("button","Зареєструвати 👩‍🏫"),m=el("div",null,"msg");
+  r1.append(lg,pw);r2.append(ln,fn,sb);c.append(r1,r2);if(withCode)c.append(cd);c.append(b,m);
+  b.onclick=async()=>{if(lg.value.trim().length<3||pw.value.length<8||norm(ln.value).length<2||norm(fn.value).length<2){say(m,"Заповни логін, пароль (від 8 символів), прізвище та ім'я.");return}
+    b.disabled=true;
+    try{await api("POST","/api/teachers",{login:lg.value,password:pw.value,last:ln.value,first:fn.value,about:sb.value,setup_code:cd.value});[lg,pw,ln,fn,sb,cd].forEach(x=>x.value="");await done(m)}catch(e){say(m,e.message)}
+    b.disabled=false};
+}
+function setupSheet(){
+  const c=sheet("Перший запуск");c.append(el("div","У системі ще немає жодного вчителя. Зареєструй першого — знадобиться код першого запуску.","dim"));
+  teacherForm(c,true,async()=>{await load();location.hash="teacher";route()});return c;
+}
+
+// ---------- учень ----------
+function studentLessons(){
+  const c=sheet("Уроки");app.append(c);
+  repaint=()=>{c.querySelectorAll(":scope>:not(h2)").forEach(x=>x.remove());
+    const list=S.lessons,td=S.today,now=list.filter(l=>l.date===td),old=list.filter(l=>l.date<td);
+    const sec=(t,arr)=>{if(!arr.length)return;c.append(el("div",t,"day"));arr.forEach(l=>{const r=el("div",null,"item"),done=S.answers.some(a=>a.lesson_id===l.id),g=grade(S.me.id,l.id);
+      const bd=el("span",(done?"✔ здано":"")+(done&&g?" · ":"")+(g?"оцінка "+g:""),"badge"),b=el("button","Відкрити");b.onclick=()=>lessonView(l.id);
+      r.append(lessonLine(l,done||g?bd:null),b);c.append(r)})};
+    if(!list.length)c.append(el("div","Завдань поки немає. Нове завдання з'явиться в день уроку.","dim"));
+    else if(!now.length)c.append(el("div","На сьогодні нового завдання немає.","dim"));
+    sec("📌 Завдання на сьогодні",now);sec("🗄 Попередні уроки",old)};
+  repaint();
+}
+function lessonLine(l,extra){const t=el("div"),a=el("div",l.topic);a.style.fontWeight="800";
+  t.append(a,el("div",(l.cls||"без класу")+" · "+(l.date?dD(l.date):"дату не вказано"),"dim"));if(extra)a.append(extra);return t}
+function studentCabinet(){
+  const c=sheet("Особистий кабінет"),info=el("div"),st=el("div",null,"stats"),g=sheet("Мої оцінки та коментарі вчителя"),gb=el("div");g.append(gb);
+  [["Учень",S.me.last+" "+S.me.first],["Клас",S.me.cls],["У кабінеті з",fDate(S.me.ts)]].forEach(([a,b])=>{const p=el("div");p.append(el("b",a+": "),document.createTextNode(b||"—"));info.append(p)});
+  c.append(info,st);app.append(c,g);
+  repaint=()=>{const gs=S.grades.map(x=>x.value),avg=gs.length?(gs.reduce((a,b)=>a+b,0)/gs.length).toFixed(1):"—";
+    st.textContent="";[[S.lessons.length,"уроків"],[new Set(S.answers.map(a=>a.lesson_id)).size,"здано"],[avg,"середня оцінка"]].forEach(([v,l])=>{const d=el("div");d.append(el("b",String(v)),l);st.append(d)});
+    gb.textContent="";if(!S.lessons.length)gb.append(el("div","Поки що немає уроків.","dim"));
+    S.lessons.forEach(l=>{const gr=grade(S.me.id,l.id),tc=thread(S.me.id,l.id).filter(x=>x.author==="teacher").pop();
+      const r=el("div",null,"item"),t=el("div");t.append(el("div",l.topic),el("div",dD(l.date)+(tc?" · Вчитель: "+tc.text:""),"dim"));
+      r.append(t,el("b",gr?String(gr):"—"));gb.append(r)})};
+  repaint();
+}
+function studentHistory(){
+  const c=sheet("Мої відповіді");app.append(c);
+  repaint=()=>{c.querySelectorAll(":scope>:not(h2)").forEach(x=>x.remove());
+    if(!S.answers.length){c.append(el("div","Ти ще нічого не надсилав(ла).","dim"));return}
+    renderAnswers(c,S.answers,false)};
+  repaint();
+}
+function renderAnswers(box,list,showName){
+  let day="";
+  list.forEach(a=>{const d=fDate(a.ts);if(d!==day){day=d;box.append(el("div",d,"day"))}
+    const r=el("div",null,"item"),p=el("div");p.style.width="100%";
+    p.append(el("div",(showName?a.last+" "+a.first+(a.cls?" ("+a.cls+")":"")+" · ":"")+a.topic+" · "+KIND[a.kind]+" · "+fTime(a.ts),"dim"),el("pre",a.text));
+    if(a.file_name){const k=el("a","📎 "+a.file_name,"btn");k.href="/api/files/"+a.id;k.target="_blank";k.rel="noopener";p.append(k)}
+    r.append(p);box.append(r)})
+}
+function threadEl(list){
+  const box=el("div");if(!list.length)box.append(el("div","Коментарів ще немає.","dim"));
+  list.forEach(x=>{const t=x.author==="teacher",d=el("div",null,t?"th t":"th");d.append(el("div",(t?"Вчитель":"Учень")+" · "+fDate(x.ts)+" "+fTime(x.ts),"dim"),el("div",x.text));d.style.whiteSpace="pre-wrap";box.append(d)});
+  return box;
+}
+
+// ---------- вчитель ----------
+function teacherLessons(){
+  const c=sheet("Уроки за класами");app.append(c);
+  repaint=()=>{c.querySelectorAll(":scope>:not(h2)").forEach(x=>x.remove());
+    if(!S.lessons.length)c.append(el("div","Поки що порожньо. Створи перший урок у розділі «Новий урок».","dim"));
+    const groups={};S.lessons.forEach(l=>(groups[l.cls||"Без класу"]=groups[l.cls||"Без класу"]||[]).push(l));
+    Object.keys(groups).sort((a,b)=>a.localeCompare(b,"uk")).forEach(k=>{c.append(el("div","🏫 "+k,"day"));
+      groups[k].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).forEach(l=>{const r=el("div",null,"item"),n=S.answers.filter(a=>a.lesson_id===l.id).length;
+        const o=el("button","Відкрити"),d=el("button","Видалити","del"),bx=el("div",null,"bar");
+        o.onclick=()=>lessonView(l.id);
+        d.onclick=async()=>{if(!confirm("Видалити урок «"+l.topic+"»? Відповіді учнів залишаться, оцінки й коментарі до уроку зникнуть."))return;try{await api("DELETE","/api/lessons/"+l.id);await sync()}catch(e){alert(e.message)}};
+        bx.append(o,d);r.append(lessonLine(l,el("span",n+" відп.","badge")),bx);c.append(r)})});
+    const bk=el("button","💾 Зберегти копію всіх даних","ghost");bk.onclick=backup;c.append(bk)};
+  repaint();
+}
+function backup(){const a=el("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,1)],{type:"application/json"}));a.download="infoclass-copy-"+S.today+".json";a.click();URL.revokeObjectURL(a.href)}
+function classList(id){const dl=el("datalist");dl.id=id;S.classes.forEach(x=>dl.append(new Option(x)));return dl}
+function teacherNew(){
+  const c=sheet("Нова тема уроку"),topic=field("Тема, напр.: Цикли в Python (for, while)"),cls=field("Клас, напр. 5-А"),date=field("","","date"),vid=field("Посилання на відео (необов'язково, https://…)");
+  const gen=el("button","✨ Згенерувати урок"),m=el("div",null,"msg"),row=el("div",null,"row");
+  cls.setAttribute("list","cl");date.value=S.today;row.append(cls,date);
+  c.append(topic,row,vid,classList("cl"),el("div","Учні цього класу побачать завдання в день уроку.","dim"),gen,m);app.append(c);
+  if(!S.ai)say(m,"Генерацію не налаштовано: на сервері немає ключа Claude API (ANTHROPIC_API_KEY).");
+  gen.onclick=async()=>{
+    if(!topic.value.trim()){say(m,"Спочатку впиши тему уроку.");topic.focus();return}
+    if(!cls.value.trim()||!date.value){say(m,"Вкажи клас і дату уроку.");return}
+    gen.disabled=true;say(m,"Складаю теорію та практичні завдання… (до хвилини)",true);
+    try{await api("POST","/api/lessons/generate",{topic:topic.value,cls:cls.value,date:date.value,video_url:vid.value});location.hash="teacher"}catch(e){say(m,e.message)}
+    gen.disabled=false};
+}
+function teacherSchedule(){
+  const c=sheet("Розклад уроків");c.append(el("div","Вкажи клас і дату уроку — учні класу побачать завдання саме в цей день, а раніші залишаться в архіві.","dim"));
+  const box=el("div");c.append(box,classList("cl2"));app.append(c);
+  repaint=()=>{box.textContent="";
+    [...S.lessons].sort((a,b)=>(b.date||"9999").localeCompare(a.date||"9999")).forEach(l=>{
+      const r=el("div",null,"item"),t=el("div"),cl=field("Клас"),dt=field("","","date"),sv=el("button","Зберегти"),bx=el("div",null,"row"),td=S.today;
+      cl.value=l.cls||"";cl.setAttribute("list","cl2");dt.value=l.date||"";
+      const st=!l.cls||!l.date?"🚫 чернетка — учні не бачать":l.date>td?"⏳ з'явиться "+dD(l.date):l.date===td?"👁 сьогодні":"🗄 в архіві учнів";
+      t.append(el("div",l.topic),el("div",st,"dim"));t.style.flex="1 1 220px";bx.append(cl,dt,sv);bx.style.flex="2 1 320px";
+      sv.onclick=async()=>{try{await api("PATCH","/api/lessons/"+l.id,{cls:cl.value,date:dt.value||null});await sync()}catch(e){sv.textContent="Помилка"}};
+      r.append(t,bx);box.append(r)});
+    if(!S.lessons.length)box.append(el("div","Уроків ще немає.","dim"))};
+  repaint();
+}
+// Панель оцінювання одного учня за один урок. after — що перемалювати довкола після збереження.
+function gradePanel(box,sid,lid,after){
+  const draw=()=>{box.textContent="";const st=S.students.find(x=>x.id===sid),l=S.lessons.find(x=>x.id===lid);if(!st||!l)return;
+    box.append(el("h3",st.last+" "+st.first+" · "+st.cls+" — "+l.topic));
+    const subs=S.answers.filter(a=>a.student_id===sid&&a.lesson_id===lid);
+    if(!subs.length)box.append(el("div","Відповідей на цей урок ще немає.","dim"));else renderAnswers(box,subs,false);
+    box.append(el("h3","💬 Коментарі"),threadEl(thread(sid,lid)));
+    const sel=el("select");sel.append(new Option("Оцінка…",""));for(let i=1;i<=12;i++)sel.append(new Option(String(i),String(i)));sel.value=String(grade(sid,lid)||"");
+    const ta=el("textarea");ta.placeholder="Коментар вчителя (необов'язково)";
+    const b=el("button","Зберегти оцінку / коментар"),m=el("div",null,"msg");
+    b.onclick=async()=>{const v=sel.value,t=ta.value.trim();if(!v&&!t)return;b.disabled=true;
+      try{if(v)await api("PUT","/api/grades",{student_id:sid,lesson_id:lid,value:+v});
+        if(t)await api("POST","/api/comments",{student_id:sid,lesson_id:lid,text:t});
+        await load();if(!S)return route();after&&after();draw()}catch(e){say(m,e.message);b.disabled=false}};
+    box.append(sel,ta,b,m)};
+  draw();
+}
+function teacherJournal(){
+  const c=sheet("Журнал оцінок"),sel=el("select"),wrap=el("div",null,"wrap"),p=sheet(),panel=el("div");
+  p.append(panel);c.append(sel,wrap);app.append(c,p);
+  const build=()=>{const cur=sel.value;sel.textContent="";S.classes.forEach(x=>sel.append(new Option(x)));if(cur)sel.value=cur;wrap.textContent="";
+    if(!sel.value){wrap.append(el("div","Поки що немає класів.","dim"));return}
+    const sts=S.students.filter(r=>r.cls===sel.value).sort(byName),ls=S.lessons.filter(l=>l.cls===sel.value&&l.date).sort((a,b)=>a.date.localeCompare(b.date));
+    if(!sts.length||!ls.length){wrap.append(el("div","У цьому класі немає учнів або уроків із датою.","dim"));return}
+    const t=el("table"),hr=el("tr");hr.append(el("th","Учень"));ls.forEach(l=>{const th=el("th",l.topic.slice(0,18)+(l.topic.length>18?"…":""));th.title=l.topic;th.append(el("br"),el("small",dD(l.date)));hr.append(th)});hr.append(el("th","Сер."));t.append(hr);
+    sts.forEach(st=>{const tr=el("tr");tr.append(el("td",st.last+" "+st.first,"n"));const vals=[];
+      ls.forEach(l=>{const g=grade(st.id,l.id),has=S.answers.some(a=>a.student_id===st.id&&a.lesson_id===l.id),td=el("td"),b=el("button",g?String(g):has?"•":"–","ghost");
+        if(g)vals.push(g);b.onclick=()=>gradePanel(panel,st.id,l.id,build);td.append(b);tr.append(td)});
+      tr.append(el("td",vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"—"));t.append(tr)});
+    wrap.append(t,el("div","• — є відповідь без оцінки, – — відповіді немає. Натисни клітинку, щоб оцінити й прокоментувати.","dim"))};
+  sel.onchange=()=>{panel.textContent="";build()};
+  repaint=build;build();
+}
+function teacherAnswers(){
+  const c=sheet("Відповіді учнів"),f=el("div",null,"row"),sl=el("select"),q=field("Прізвище або ім'я"),sk=el("select"),d1=field("","","date"),d2=field("","","date"),list=el("div");
+  q.value=filt.q;d1.value=filt.from;d2.value=filt.to;d1.title="з";d2.title="по";
+  sk.append(new Option("Усі формати",""),...Object.entries(KIND).map(([k,v])=>new Option(v,k)));sk.value=filt.kind;
+  f.append(sl,q,sk,d1,d2);c.append(f,list);app.append(c);
+  const fill=()=>{const m=new Map();S.answers.forEach(a=>a.lesson_id&&m.set(String(a.lesson_id),a.topic));sl.textContent="";sl.append(new Option("Усі уроки",""));
+    m.forEach((t,id)=>sl.append(new Option(t,id)));sl.value=filt.lesson};
+  const paint=()=>{list.textContent="";
+    const t1=filt.from?new Date(filt.from+"T00:00:00").getTime():0,t2=filt.to?new Date(filt.to+"T23:59:59").getTime():1e15,qq=norm(filt.q);
+    const arr=S.answers.filter(a=>(!filt.lesson||String(a.lesson_id)===filt.lesson)&&(!filt.kind||a.kind===filt.kind)&&a.ts>=t1&&a.ts<=t2&&(!qq||norm(a.last+" "+a.first+" "+a.cls).includes(qq)));
+    list.append(el("div","Знайдено: "+arr.length,"dim"));if(arr.length)renderAnswers(list,arr,true)};
+  const set=()=>{filt={lesson:sl.value,q:q.value,kind:sk.value,from:d1.value,to:d2.value};paint()};
+  [sl,sk,d1,d2].forEach(x=>x.onchange=set);q.oninput=set;
+  fill();paint();repaint=()=>{fill();paint()};
+}
+function teacherStudents(){
+  const add=sheet("Додати учнів"),cl=field("Клас, напр. 5-А"),ta=el("textarea"),ab=el("button","Додати й видати логіни"),am=el("div",null,"msg");
+  ta.placeholder="По одному учню в рядок: Прізвище Ім'я";cl.setAttribute("list","cl3");
+  add.append(el("div","Кожен учень отримає логін і PIN для входу. PIN показується лише один раз — роздрукуй або перепиши список одразу.","dim"),cl,classList("cl3"),ta,ab,am);
+  const cr=sheet("Логіни та PIN-коди");cr.classList.add("printme");cr.style.display="none";
+  const creds=(rows,title)=>{cr.style.display="";cr.querySelectorAll(":scope>:not(h2)").forEach(x=>x.remove());
+    const t=el("table"),hr=el("tr");["Учень","Логін","PIN"].forEach(x=>hr.append(el("th",x)));t.append(hr);
+    rows.forEach(r=>{const tr=el("tr");tr.append(el("td",r.last+" "+r.first,"n"),el("td",r.login,"code"),el("td",r.pin,"code"));t.append(tr)});
+    const pb=el("button","🖨 Друкувати","noprint"),w=el("div",null,"wrap");pb.onclick=()=>window.print();w.append(t);
+    cr.append(el("div",title,"dim"),w,el("div","PIN більше не буде показано. Якщо учень його загубить — видай новий кнопкою «Новий PIN».","msg noprint"),pb);cr.scrollIntoView({behavior:"smooth"})};
+  ab.onclick=async()=>{const k=cl.value.trim(),names=ta.value.split("\n").map(x=>x.trim()).filter(Boolean);
+    if(!k||!names.length){say(am,"Вкажи клас і хоча б одного учня.");return}
+    ab.disabled=true;
+    try{const r=await api("POST","/api/students",{cls:k,names});say(am,"Додано: "+r.created.length+(r.skipped?" · пропущено (вже є в класі або немає імені): "+r.skipped:""),true);
+      if(r.created.length){ta.value="";creds(r.created,"Клас "+k)}await sync()}catch(e){say(am,e.message)}
+    ab.disabled=false};
+  const c=sheet("Учні"),box=el("div");c.append(box);app.append(add,cr,c);
+  repaint=()=>{box.textContent="";box.append(el("div","Усього учнів: "+S.students.length,"dim"));let cur=null;
+    [...S.students].sort((x,y)=>x.cls.localeCompare(y.cls,"uk")||byName(x,y)).forEach(s=>{
+      if(s.cls!==cur){cur=s.cls;box.append(el("div","🏫 "+cur,"day"))}
+      const mine=S.answers.filter(a=>a.student_id===s.id),r=el("div",null,"item"),t=el("div"),bx=el("div",null,"bar"),
+        b=el("button","Усі роботи","ghost"),p=el("button","Новий PIN","ghost"),d=el("button","Видалити","del");
+      const nm=el("div",s.last+" "+s.first);nm.style.fontWeight="800";
+      t.append(nm,el("div","логін: "+s.login+" · відповідей: "+mine.length+(mine.length?" · остання: "+fDate(mine[0].ts)+", "+fTime(mine[0].ts):""),"dim"));
+      b.onclick=()=>{filt={lesson:"",q:s.last+" "+s.first,kind:"",from:"",to:""};location.hash="teacher-answers"};
+      p.onclick=async()=>{if(!confirm("Видати новий PIN для "+s.last+" "+s.first+"? Старий перестане діяти."))return;try{const r=await api("POST","/api/students/"+s.id+"/pin");creds([{last:s.last,first:s.first,...r}],"Новий PIN")}catch(e){alert(e.message)}};
+      d.onclick=async()=>{if(!confirm("Видалити учня "+s.last+" "+s.first+"? Разом із ним зникнуть його відповіді, файли, оцінки й коментарі."))return;try{await api("DELETE","/api/students/"+s.id);await sync()}catch(e){alert(e.message)}};
+      bx.append(b,p,d);r.append(t,bx);box.append(r)})};
+  repaint();
+}
+function teacherSettings(){
+  const pr=sheet("Мій профіль"),ln=field("Прізвище"),fn=field("Ім'я та по батькові"),sb=field("Предмет або школа"),pw=field("Новий пароль (залиш порожнім, щоб не міняти)","new-password","password"),r2=el("div",null,"row"),sv=el("button","Зберегти"),m2=el("div",null,"msg");
+  ln.value=S.me.last;fn.value=S.me.first;sb.value=S.me.about||"";r2.append(ln,fn,sb);
+  sv.onclick=async()=>{try{await api("PUT","/api/me",{last:ln.value,first:fn.value,about:sb.value,password:pw.value});pw.value="";await load();if(!S)return route();$("who").textContent="👩‍🏫 "+S.me.last+" "+S.me.first;say(m2,"Збережено ✔",true)}catch(e){say(m2,e.message)}};
+  pr.append(el("div","Логін: "+S.me.login,"dim"),r2,pw,sv,m2);
+  const co=sheet("Додати колегу-вчителя");co.append(el("div","Колега матиме такий самий доступ: усі класи, уроки, відповіді та оцінки.","dim"));
+  teacherForm(co,false,async m=>say(m,"Вчителя зареєстровано ✔ Передай йому логін і пароль.",true));
+  const h=sheet("Як це працює");
+  [["🎓 Учні","додай список класу в розділі «Учні», роздрукуй логіни й PIN-коди та роздай учням."],["📅 Уроки","учень бачить урок лише свого класу й лише з дня уроку."],["📎 Файли",S.uploads?"учні можуть додавати до відповіді фото, відео, PDF і текстові файли до 20 МБ.":"сховище файлів не налаштовано — учні можуть вставляти у відповідь посилання."]].forEach(([a,b])=>{const p=el("p");p.append(el("b",a+": "),document.createTextNode(b));h.append(p)});
+  app.append(pr,co,h);
+}
+
+// ---------- урок ----------
+function lessonView(lid){
+  const teacher=S.role==="teacher",L=()=>S.lessons.find(x=>x.id===lid),l=L();if(!l)return route();
+  repaint=null;app.textContent="";
+  const v=sheet(),back=el("button","← До списку","ghost");back.onclick=()=>route();
+  v.append(back,el("h2",l.topic),el("div",(l.cls||"")+(l.date?" · "+dD(l.date):""),"dim"));
+  if(typeof l.video_url==="string"&&l.video_url.startsWith("https://")){const a=el("a","▶ Відео від вчителя","btn");a.href=l.video_url;a.target="_blank";a.rel="noopener";v.append(a,document.createTextNode(" "))}
+  CH.forEach(ch=>{const a=el("a","▶ Шукати на каналі «"+ch+"»","btn");a.href=YT('"'+ch+'" '+l.topic);a.target="_blank";a.rel="noopener";v.append(a,document.createTextNode(" "))});
+  v.append(el("div","Пошук відбувається за назвою каналу та темою уроку.","dim"));
+  const gb=el("div");v.append(gb);
+  const m=el("div",null,"sec");v.append(el("h2","Теорія"),m);
+  (l.material||[]).forEach(s=>m.append(el("h3",s.h),el("p",s.p)));
+  v.append(el("h2","Практика"+(teacher?"":" — обери формат")));
+  const tabs=el("div",null,"tabs"),body=el("div");v.append(tabs,body);
+  const show=k=>{[...tabs.children].forEach(c=>c.classList.toggle("on",c.dataset.k===k));body.textContent="";
+    const t=(l.tasks||{})[k]||{};body.append(el("h3",t.title||""),el("p",t.desc||"","sec"));
+    if(teacher)return;
+    const ta=el("textarea");ta.placeholder="Твоя відповідь, посилання на результат або опис виконання…";
+    const fi=field("","","file");fi.accept="image/*,video/mp4,video/quicktime,video/webm,.pdf,.txt,.csv,.md,.json";
+    const send=el("button","Надіслати вчителю 📨"),st=el("div",null,"msg");
+    send.onclick=async()=>{const txt=ta.value.trim(),f=S.uploads?fi.files[0]:null;if(!txt&&!f)return;
+      if(f&&f.size>20*1024*1024){say(st,"Файл більший за 20 МБ.");return}
+      send.disabled=true;if(f)say(st,"Завантажую файл…",true);
+      const fd=new FormData();fd.append("lesson_id",lid);fd.append("kind",k);fd.append("text",txt);if(f)fd.append("file",f);
+      try{await api("POST","/api/answers",fd);ta.value="";fi.value="";say(st,"Надіслано ✔ — дивись у «Мої відповіді»",true);await sync()}catch(e){say(st,"Не вдалося надіслати: "+e.message)}
+      send.disabled=false};
+    body.append(ta);
+    if(S.uploads)body.append(el("div","📎 Файл до 20 МБ (фото, відео, PDF, .txt/.csv). Word і PowerPoint завантаж на Google Диск і встав посилання у відповідь.","dim"),fi);
+    else body.append(el("div","Завантаження файлів вимкнено — встав посилання на файл у відповідь.","dim"));
+    body.append(send,st)};
+  Object.keys(KIND).forEach(k=>{const b=el("button",KIND[k],"ghost");b.dataset.k=k;b.onclick=()=>show(k);tabs.append(b)});
+  show("text");app.append(v);
+  if(!teacher){
+    const c=sheet("💬 Коментарі до завдання"),tb=el("div"),ta=el("textarea"),b=el("button","Додати коментар"),cm=el("div",null,"msg");
+    ta.placeholder="Запитання вчителю або коментар до завдання…";c.append(tb,ta,b,cm);app.append(c);
+    b.onclick=async()=>{const t=ta.value.trim();if(!t)return;try{await api("POST","/api/comments",{lesson_id:lid,text:t});ta.value="";cm.textContent="";await sync()}catch(e){say(cm,e.message)}};
+    repaint=()=>{if(!L())return route();const g=grade(S.me.id,lid);gb.textContent="";if(g)gb.append(el("span","Оцінка за урок: "+g,"badge"));tb.textContent="";tb.append(threadEl(thread(S.me.id,lid)))};
+  }else{
+    const c=sheet("Учні класу"+(l.cls?" "+l.cls:"")),box=el("div"),panel=el("div");c.append(box,panel);app.append(c);
+    repaint=()=>{if(!L())return route();box.textContent="";const sts=S.students.filter(r=>!l.cls||r.cls===l.cls).sort(byName);
+      if(!sts.length)box.append(el("div","У цьому класі немає учнів.","dim"));
+      sts.forEach(st=>{const n=S.answers.filter(a=>a.student_id===st.id&&a.lesson_id===lid).length,g=grade(st.id,lid),r=el("div",null,"item"),t=el("div"),b=el("button",n?"Переглянути й оцінити":"Коментар / оцінка","ghost");
+        const nm=el("div",st.last+" "+st.first);nm.style.fontWeight="800";t.append(nm,el("div",(n?"відповідей: "+n:"відповіді немає")+(g?" · оцінка "+g:""),"dim"));
+        b.onclick=()=>gradePanel(panel,st.id,lid,repaint);r.append(t,b);box.append(r)})};
+  }
+  repaint();window.scrollTo(0,0);
+}
+
+$("logo").onclick=()=>{location.hash="";route()};
+$("out").onclick=async()=>{try{await api("POST","/api/logout")}catch(e){}S=null;location.hash="";route()};
+window.addEventListener("hashchange",()=>load().then(route));
+load().then(route);
+</script>
+</body>
+</html>
